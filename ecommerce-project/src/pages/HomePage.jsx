@@ -6,13 +6,9 @@ export function HomePage() {
   return (
     <>
       <title>Ecommerce-Project</title>
-
-
       <Header />
-
       <div className="home-page">
         <div className="products-grid">
-
           {products.map((product)=>{
         return(
            <div key={product.id}className="product-container">
