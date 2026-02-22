@@ -1,7 +1,7 @@
 import './checkout-header.css'
 import './CheckoutPage.css'
 import { useState, useEffect } from 'react'
-import { formatMoney } from '../utils/money'
+import { formatMoney } from '../../utils/money'
 import axios from 'axios';
 
 import dayjs from 'dayjs'
@@ -15,7 +15,7 @@ export function CheckoutPage({ cart = [] }) {
             setDeliveryOptions(response.data);
          });
          
-
+         
       axios.get('/api/payment-summary')
       .then ((response)=>{
          setPaymentSummary(response.data);
