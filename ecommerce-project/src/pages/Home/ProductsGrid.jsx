@@ -1,9 +1,14 @@
 import { formatMoney } from "../../utils/money"
-export function ProductsGrid({ products}){
+import axios from "axios"
+import { useState } from "react"
+export function ProductsGrid({ products, loadCart}){
+  const [quantities, setQuantities] = useState({});
+
    return(
       <>
        <div className="products-grid">
                 {products.map((product)=>{
+
               return(
                  <div key={product.id}className="product-container">
                   <div className="product-image-container">
@@ -24,7 +29,16 @@ export function ProductsGrid({ products}){
                   </div>
                   <div className="product-price">{formatMoney(product.priceCents)}</div>
                   <div className="product-quantity-container">
-                    <select>
+                    <select
+                      value={quantities[product.id] || 1}
+                      onChange={(event) => {
+                        const quantitySelected = Number(event.target.value);
+                        setQuantities((prev) => ({
+                          ...prev,
+                          [product.id]: quantitySelected
+                        }));
+                      }}
+                    >
                       <option value={1}>1</option>
                       <option value={2}>2</option>
                       <option value={3}>3</option>
@@ -42,7 +56,20 @@ export function ProductsGrid({ products}){
                     <img src="/images/icons/checkmark.png" />
                     Added
                   </div>
-                  <button className="add-to-cart-button button-primary">
+
+
+
+
+                  <button className="add-to-cart-button button-primary"
+                  onClick={async ()=>{
+                        
+                   await axios.post('/api/cart-items',{
+                      productId: product.id,
+                      quantity: quantities[product.id] || 1
+                    });
+                     await loadCart();
+                  }}
+                  >
                     Add to Cart
                   </button>
                 </div>
